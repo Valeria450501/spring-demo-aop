@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyDemoLoggingAspect {
 
-	@Before("execution(* add*())")
+	@Before("execution(* add*(com.luv2code.aopdemo.Account))")
 	public void beforeAddAccount() {
 		System.out.println("\n=======>>>>> Executiong @Before addAccount()");
 	}
