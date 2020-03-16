@@ -25,9 +25,7 @@ public class MainDemoApp {
 		
 		accountDAO.getName();
 		accountDAO.getServiceCode();
-		
-		theMembershipDAO.addAccount();
-		
+				
 		context.close();
 	}
 
