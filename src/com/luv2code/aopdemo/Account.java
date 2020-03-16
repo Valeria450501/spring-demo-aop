@@ -5,9 +5,18 @@ public class Account {
 	private String name;
 	private String password;
 	
+	public Account() {
+	}
+	
 	public Account(String name) {
 		this.name = name;
 	}
+	
+	public Account(String name, String password) {
+		this.name = name;
+		this.password = password;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -20,4 +29,10 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public String toString() {
+		return "Account [name=" + name + ", password=" + password + "]";
+	}
+	
 }
