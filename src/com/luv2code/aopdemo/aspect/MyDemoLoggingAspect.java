@@ -1,5 +1,7 @@
 package com.luv2code.aopdemo.aspect;
 
+import java.util.logging.Logger;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -18,20 +20,28 @@ import com.luv2code.aopdemo.Account;
 @Order(2)
 public class MyDemoLoggingAspect {
 	
+	private static Logger myLogger = Logger.getLogger(MyDemoLoggingAspect.class.getName());
+	
 	@Around("execution(* com.luv2code.aopdemo.service.*.getFortune(..))")
 	public Object arounfGetFortuhne(
 			ProceedingJoinPoint theProceedingJoinPoint) throws Throwable {
 		String methodName = theProceedingJoinPoint.getSignature().toString();
 		
-		System.out.println("\n=======> Ececuting @Around " + methodName);	
+		myLogger.info("\n=======> Ececuting @Around " + methodName);	
 		
 		long begin = System.currentTimeMillis();
-		
-		Object result = theProceedingJoinPoint.proceed();
+		Object result = null;		
+		try {
+			result =theProceedingJoinPoint.proceed();
+		} catch (Exception ex) {
+			myLogger.warning("\\n=======> Ececuting @Around: " + ex.getMessage());
+			result = "9 lives...you are still alive";
+		}
 		
 		long end = System.currentTimeMillis();
 		
-		System.out.println("\\n=======> Ececuting @Around: " + (end - begin) / 1000.0 + " seconds.");
+		myLogger.info("\\n=======> Ececuting @Around: " + (end - begin) / 1000.0 + " seconds.");
+
 		return result;
 	}
 	
@@ -39,7 +49,7 @@ public class MyDemoLoggingAspect {
 	public void afterFinallyFindAccountAdvice(JoinPoint theJoinPoint) {
 		String methodName = theJoinPoint.getSignature().toString();
 		
-		System.out.println("\n=======> @After  " + methodName);
+		myLogger.info("\n=======> @After  " + methodName);
 	}
 	
 	@AfterThrowing(
@@ -48,26 +58,26 @@ public class MyDemoLoggingAspect {
 	public void afterThrowingFindAccountAdvice(JoinPoint theJoinPoint, Throwable theExc) {
 		String methodName = theJoinPoint.getSignature().toString();
 		
-		System.out.println("\n=======> Ececuting @AfterThrowing " + methodName);
-		System.out.println("\n=======> theExc is: " + theExc);
+		myLogger.info("\n=======> Ececuting @AfterThrowing " + methodName);
+		myLogger.info("\n=======> theExc is: " + theExc);
 	}
 
 	@Before("com.luv2code.aopdemo.aspect.LuvAopExpressions.forDaoPackageNotGetterSetter()")
 	public void beforeAddAccount(JoinPoint theJoinPoint) {
-		System.out.println("\n=======>>>>> Executiong @Before addAccount()");
+		myLogger.info("\n=======>>>>> Executiong @Before addAccount()");
 		
 		MethodSignature signature = (MethodSignature) theJoinPoint.getSignature();
 		
-		System.out.println("MethodSignature: " + signature);
+		myLogger.info("MethodSignature: " + signature);
 		
 		Object[] args = theJoinPoint.getArgs();
 		
 		for (Object tempArg : args) {
-			System.out.println(tempArg);
+			myLogger.info(tempArg.toString());
 			
 			if(tempArg instanceof Account) {
 				Account theAccount = (Account) tempArg;
-				System.out.println("Account name: " + theAccount.getName());
+				myLogger.info("Account name: " + theAccount.getName());
 			}
 		}
 	}

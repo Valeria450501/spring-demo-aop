@@ -17,4 +17,11 @@ public class TrafficFortuneService {
 		
 		return "Too late to call a taxi....";
 	}
+
+	public String getFortune(boolean tripWire) {
+		if(tripWire) {
+			throw new RuntimeException("....RIP....");
+		}
+		return getFortune();
+	}
 }
