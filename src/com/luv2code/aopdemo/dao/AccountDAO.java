@@ -45,7 +45,12 @@ public class AccountDAO {
 		this.serviceCode = serviceCode;
 	}
 	
-	public List<Account> findAccount() {
+	public List<Account> findAccount(boolean tripWire) {
+		
+		if(tripWire) {
+			throw new RuntimeException("RIP");
+		}
+		
 		List<Account> myAccounts = new ArrayList<Account>();
 		myAccounts.add(new Account("User1", "qwerty"));
 		myAccounts.add(new Account("User2", "12345"));

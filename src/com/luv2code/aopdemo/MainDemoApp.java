@@ -1,5 +1,7 @@
 package com.luv2code.aopdemo;
 
+import java.util.List;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.luv2code.aopdemo.dao.AccountDAO;
@@ -11,20 +13,19 @@ public class MainDemoApp {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DemoConfig.class);
 		
 		AccountDAO accountDAO = context.getBean("accountDAO", AccountDAO.class);
+	
+		List<Account> theAccounts = null;
 		
-		MembershipDAO theMembershipDAO = context.getBean("membershipDAO", MembershipDAO.class);
+		try {
+			boolean tripWire = true;
+			theAccounts = accountDAO.findAccount(tripWire);
+		} catch (Exception e) {
+			System.out.println("Main program ---> exception: " + e.getMessage());
+		}
 		
-		accountDAO.addAccount(new Account("User1"));
-		theMembershipDAO.addSillyMember();
-		
-		accountDAO.addAccount();
-		accountDAO.doWork();
-		
-		accountDAO.setName("foobar");
-		accountDAO.setServiceCode("15");
-		
-		accountDAO.getName();
-		accountDAO.getServiceCode();
+		System.out.println("AfterThrowingDemoApp\n---\n");
+		System.out.println(theAccounts);
+		System.out.println("---");
 				
 		context.close();
 	}

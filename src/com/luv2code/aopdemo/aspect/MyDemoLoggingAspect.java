@@ -1,6 +1,7 @@
 package com.luv2code.aopdemo.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -13,6 +14,16 @@ import com.luv2code.aopdemo.Account;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+	
+	@AfterThrowing(
+			pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccount(..))",
+			throwing = "theExc")
+	public void afterThrowingFindAccountAdvice(JoinPoint theJoinPoint, Throwable theExc) {
+		String methodName = theJoinPoint.getSignature().toString();
+		
+		System.out.println("\n=======> Ececuting @AfterThrowing " + methodName);
+		System.out.println("\n=======> theExc is: " + theExc);
+	}
 
 	@Before("com.luv2code.aopdemo.aspect.LuvAopExpressions.forDaoPackageNotGetterSetter()")
 	public void beforeAddAccount(JoinPoint theJoinPoint) {
