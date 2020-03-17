@@ -23,7 +23,7 @@ public class MainDemoApp {
 			System.out.println("Main program ---> exception: " + e.getMessage());
 		}
 		
-		System.out.println("AfterThrowingDemoApp\n---\n");
+		System.out.println("AfterFinallyDemoApp\n---\n");
 		System.out.println(theAccounts);
 		System.out.println("---");
 				
